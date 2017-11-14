@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookScript : MonoBehaviour {
+public class ScoreManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

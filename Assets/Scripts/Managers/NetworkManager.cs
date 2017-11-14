@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkSpawner : MonoBehaviour {
+public class NetworkManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
