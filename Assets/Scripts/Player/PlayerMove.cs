@@ -74,7 +74,7 @@ public class PlayerMove : NetworkBehaviour
             Quaternion rot = Quaternion.LookRotation(dir);
 
             // Rotate the player towards the new direction
-            rigid.MoveRotation(rot);
+            rigid.transform.rotation = rot;
         }
     }
 }
