@@ -7,29 +7,31 @@ using UnityEngine.Networking;
 public class PlayerMove : NetworkBehaviour
 {
     public float moveSpeed = 8f;
-    public LayerMask floor;
-
+    public float sensitivity = 2f;
     private Vector3 move;
-    private float camRay = 50f;
 
     private Player player;
     private Rigidbody rigid;
-
+    private Quaternion originalRotation;
     // Use this for initialization
     void Awake()
     {
         player = GetComponent<Player>();
         rigid = GetComponent<Rigidbody>();
+        if(rigid.freezeRotation)
+        {
+            originalRotation = transform.localRotation;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(player == null)
+        if (player == null)
         {
             return;
         }
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             //Store the axes we will use to move
             float h = Input.GetAxis("Horizontal");
@@ -37,7 +39,7 @@ public class PlayerMove : NetworkBehaviour
 
             // Set move based on Input
             move = new Vector3(h, 0, v);
-
+            move = transform.rotation * move;
             //Rotate to Mouse pos
             RotateToMouse();
         }
@@ -55,26 +57,34 @@ public class PlayerMove : NetworkBehaviour
     }
     void RotateToMouse()
     {
-        // Create a ray that returns from the camera to mouse position
-        Ray ray = player.cam.ScreenPointToRay(Input.mousePosition);
+        //SET variables for the camera Transform and for input
+        Transform camTransform = player.cam.transform;
+        float rotX = Input.GetAxis("Mouse X") * sensitivity;
+        float rotY = Input.GetAxis("Mouse Y") * sensitivity;
+        //Set the variable that will clamp our camera so we do not jitter
+        float xClamp = rotY;
+        //SET variable for the camera and playerTransform to rotate
+        Vector3 rot = camTransform.rotation.eulerAngles;
+        Vector3 playerRot = rigid.rotation.eulerAngles;
+        //Set the variables to rotate depending on Input
+        rot.x -= rotY;
+        playerRot.y += rotX;
+        rot.z = 0;
 
-        // Create a RaycastHit variable that stores information of what we hit
-        RaycastHit hit;
-
-        // Perform the raycast and check if it hits the floor layer
-        if (Physics.Raycast(ray, out hit, camRay, floor))
+        //Clamp our Camera
+        if(xClamp > 90)
         {
-            // Create a vector that points to where we hit from our current position
-            Vector3 dir = hit.point - transform.position;
-
-            // Ensure the vector is not rotating us upwards
-            dir.y = 0f;
-
-            // Set a new quaternion based on the new direction
-            Quaternion rot = Quaternion.LookRotation(dir);
-
-            // Rotate the player towards the new direction
-            rigid.transform.rotation = rot;
+            xClamp = 90;
+            rot.x = 90;
         }
+        else if(xClamp < -90)
+        {
+            xClamp = -90;
+            rot.x = -90;
+        }
+
+        camTransform.rotation = Quaternion.Euler(rot);
+        rigid.rotation = Quaternion.Euler(playerRot);
     }
 }
+
