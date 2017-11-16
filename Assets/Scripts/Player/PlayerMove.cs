@@ -6,22 +6,21 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Player))]
 public class PlayerMove : NetworkBehaviour
 {
+    //Movement Variables
     public float moveSpeed = 8f;
-    public float sensitivity = 2f;
     private Vector3 move;
-
+    //Rotation Variables
+    public float rotX, rotY;
+    public float sensitivity = 2f;
+    
+    //References
     private Player player;
     private Rigidbody rigid;
-    private Quaternion originalRotation;
     // Use this for initialization
     void Awake()
     {
         player = GetComponent<Player>();
         rigid = GetComponent<Rigidbody>();
-        if(rigid.freezeRotation)
-        {
-            originalRotation = transform.localRotation;
-        }
     }
 
     // Update is called once per frame
@@ -33,14 +32,14 @@ public class PlayerMove : NetworkBehaviour
         }
         if (isLocalPlayer)
         {
-            //Store the axes we will use to move
+            //Store the axes we will use to move (uses the same axis for Console/PC)
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
             // Set move based on Input
             move = new Vector3(h, 0, v);
-            move = transform.rotation * move;
-            //Rotate to Mouse pos
+            move = rigid.rotation * move;
+            //Rotate to Mouse pos if playing on PC
             RotateToMouse();
         }
 
@@ -57,12 +56,20 @@ public class PlayerMove : NetworkBehaviour
     }
     void RotateToMouse()
     {
-        //SET variables for the camera Transform and for input
+        //SET variables for the camera Transform
         Transform camTransform = player.cam.transform;
-        float rotX = Input.GetAxis("Mouse X") * sensitivity;
-        float rotY = Input.GetAxis("Mouse Y") * sensitivity;
+        #region Inputs
+        //SET variables for Mouse input
+        rotX += Input.GetAxis("Mouse X") * sensitivity;
+        rotY += Input.GetAxis("Mouse Y") * sensitivity;
+
+        //Set variables for controller Input(XBOX360 controller)
+        rotX += Input.GetAxis("RJoystickH") * sensitivity;
+        rotY += Input.GetAxis("RJoystickV") * sensitivity;
+        #endregion
         //Set the variable that will clamp our camera so we do not jitter
         float xClamp = rotY;
+
         //SET variable for the camera and playerTransform to rotate
         Vector3 rot = camTransform.rotation.eulerAngles;
         Vector3 playerRot = rigid.rotation.eulerAngles;
