@@ -5,9 +5,9 @@ using UnityEngine;
 public class SmallProjectile : Projectile
 {
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
     }
     public override void Fire(Vector3 direction, float? speed = null)
     {

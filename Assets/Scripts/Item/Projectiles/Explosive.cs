@@ -7,9 +7,9 @@ public class Explosive : Projectile
     public int explosionDamage = 10;
     public float explosionRadius = 5f;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
     }
 
     public override void Fire(Vector3 direction, float? speed = null)

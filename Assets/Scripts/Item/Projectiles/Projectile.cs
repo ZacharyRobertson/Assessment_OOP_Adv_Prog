@@ -7,8 +7,8 @@ public abstract class Projectile : MonoBehaviour
     public float speed = 10f;
     public float distance = 5f;
     public Rigidbody rigid;
-    // Use this for initialization
-    protected virtual void Start()
+
+    protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody>();
     }
