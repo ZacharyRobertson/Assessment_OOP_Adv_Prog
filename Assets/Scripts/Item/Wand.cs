@@ -31,13 +31,13 @@ public class Wand : Item
             {
                 enemyHealth.TakeDamage(damage, player);
             }
-        Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-        p.Fire(ray.direction);
+            Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
+            p.Fire(ray.direction);
         }
         else
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-            p.Fire(Vector3.forward,3);
+            p.Fire(Vector3.forward, 3);
         }
     }
 }

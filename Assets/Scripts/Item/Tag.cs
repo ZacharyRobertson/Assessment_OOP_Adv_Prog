@@ -16,7 +16,6 @@ public class Tag : Item
     //Item damage
     public int damage = 1;
 
-
     public override void UseItem()
     {
         //Send our ray forward from the firePoint
@@ -28,6 +27,7 @@ public class Tag : Item
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
             p.Fire(ray.direction);
+            //Spawn the bullet on the client
             //Check for a health component
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
             //Make sure we have a health script to reference

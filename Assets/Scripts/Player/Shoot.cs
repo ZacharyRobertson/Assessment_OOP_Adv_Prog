@@ -49,8 +49,9 @@ public class Shoot : NetworkBehaviour
     [Command]
     void Cmd_Use()
     {
+        item.UseItem();
         Rpc_Use();
-
+        NetworkServer.Spawn(item.projectile);
     }
     [ClientRpc]
     void Rpc_Use()
@@ -112,17 +113,20 @@ public class Shoot : NetworkBehaviour
     #region Input
     void HandleInput()
     {
-        //SET fireFactor to fireFactor + Time.deltaTime
-        useFactor = useFactor + Time.deltaTime;
-        //SET fireInterval to 1/fireRate
-        float useInterval = 1 / item.useRate;
-        if (useFactor >= useInterval)
+        if (isLocalPlayer)
         {
-            //If we click the mouse button or the Right Trigger of an Xbox360 controller is pushed past an arbitrary dead zone
-            if (Input.GetButtonDown("Fire1") || Input.GetAxis("Fire2") > 0.1)
+            //SET fireFactor to fireFactor + Time.deltaTime
+            useFactor = useFactor + Time.deltaTime;
+            //SET fireInterval to 1/fireRate
+            float useInterval = 1 / item.useRate;
+            if (useFactor >= useInterval)
             {
-                //Begin the Sequence of using an Item
-                Cmd_Use();
+                //If we click the mouse button or the Right Trigger of an Xbox360 controller is pushed past an arbitrary dead zone
+                if (Input.GetButtonDown("Fire1") || Input.GetAxis("Fire2") > 0.1)
+                {
+                    //Begin the Sequence of using an Item
+                    Cmd_Use();
+                }
             }
         }
     }

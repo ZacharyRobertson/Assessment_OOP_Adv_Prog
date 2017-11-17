@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.Networking;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -13,7 +13,6 @@ public abstract class Enemy : MonoBehaviour
     }
     public float score;
     delegate void BehaviourFunc();
-
     public Transform target;
     public Behaviour behaviourIndex = Behaviour.SEEK;
 

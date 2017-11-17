@@ -21,9 +21,9 @@ public abstract class Item : MonoBehaviour
     }
 
     public abstract void UseItem();
-
     public Projectile SpawnProjectile(Vector3 pos, Quaternion rot)
     {
+        
         GameObject clone = Instantiate(projectile, pos, rot);
         Projectile p = clone.GetComponent<Projectile>();
         Debug.Log("attached the component");

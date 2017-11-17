@@ -48,6 +48,8 @@ public class NetworkUser : NetworkBehaviour
             float v = Input.GetAxis("Vertical");
             #endregion            
             moveScript.Move(h, v);
+            Cmd_SendPositionToServer(player.rigid.position);
+            Cmd_SendRotationToServer(player.rigid.rotation);
             #endregion
             #region Rotation
             #region Inputs
