@@ -20,6 +20,6 @@ public class SmallProjectile : Projectile
         direction = transform.rotation * direction;
         direction = direction.normalized * currentSpeed * Time.deltaTime;
         // Fire in that direction
-        transform.position += direction;
+        rigid.MovePosition(transform.position + direction);
     }
 }

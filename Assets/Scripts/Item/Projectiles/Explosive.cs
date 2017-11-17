@@ -23,7 +23,7 @@ public class Explosive : Projectile
         direction = transform.rotation * direction;
         direction = direction.normalized * currentSpeed * Time.deltaTime;
         // Fire in that direction
-        transform.position += direction;
+        rigid.MovePosition(transform.position + direction);
     }
 
     void Explode()
@@ -45,9 +45,9 @@ public class Explosive : Projectile
             }
         }
     }
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
-        if (col.collider.tag == "Enemy")
+        if (col.tag == "Enemy")
         {
             Explode();
         }
