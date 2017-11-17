@@ -10,7 +10,7 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public float score = 0;
     public Rigidbody rigid;
-
+    public string remoteLayerName = "RemotePlayer";
     public Vector3 spawnPos;
     private Health health;
     // Use this for initialization
@@ -18,16 +18,35 @@ public class Player : NetworkBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
-        health = GetComponent<Health>();
-        
+        health = GetComponent<Health>();        
     }
     void Start()
     {
         spawnPos = transform.position;
+        if (!isLocalPlayer)
+        {
+            AssignRemoteLayer();
+        }
+
+        //Register player on the network
+        Registerplayer();
     }
 
     void Update()
     {
         health.CheckHealth();
+    }
+
+    // Register the player's id on the network
+    void Registerplayer()
+    {
+        //Get the id from the network identity component
+        string ID = "Player " + GetComponent<NetworkIdentity>().netId;
+        this.name = ID; // assign new ID to name
+    }
+    //Assign remote layer to current GameObject (if it is not a local player)
+    void AssignRemoteLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer(remoteLayerName);
     }
 }

@@ -9,6 +9,8 @@ public abstract class Item : MonoBehaviour
     //The amount of uses before the weapon needs to reload
     public float maxUses = 50;
     public float currentUses;
+    //The rate at which we can fire
+    public float useRate = 1f;
 
     [HideInInspector]
     public Player player;

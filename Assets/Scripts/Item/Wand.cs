@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tag : Item
+public class Wand : Item
 {
     //The transform of the firePoint
     public Transform firePoint;
@@ -12,10 +11,9 @@ public class Tag : Item
     //The layer affected by our Ray
     public LayerMask itemMask;
     //The item range
-    public float range = 30;
+    public float range = 100;
     //Item damage
-    public int damage = 1;
-
+    public int damage = 5;
 
     public override void UseItem()
     {
@@ -26,8 +24,6 @@ public class Tag : Item
         //If we fire out a ray and check for itemMask
         if (Physics.Raycast(ray, out hit, range, itemMask))
         {
-            Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-            p.Fire(ray.direction);
             //Check for a health component
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
             //Make sure we have a health script to reference
@@ -36,11 +32,7 @@ public class Tag : Item
                 enemyHealth.TakeDamage(damage, player);
             }
         }
-        else
-        {
-            Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-            p.Fire(Vector3.forward);
-        }
-
+        Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
+        p.Fire(ray.direction);
     }
 }

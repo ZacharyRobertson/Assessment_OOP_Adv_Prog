@@ -11,7 +11,6 @@ public class Shoot : NetworkBehaviour
     private Player player;
 
     //SET references for a delay on use
-    public float useRate = 1f;
     private float useFactor = 0f;
 
     //Set an item array we can cycle through
@@ -34,13 +33,13 @@ public class Shoot : NetworkBehaviour
             //Do nothing and return
             return;
         }
-        HandleInput();        
+        HandleInput();
         #region Change items
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton2))
         {
             CycleItem(-1);
         }
-        if(Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3))
         {
             CycleItem(1);
         }
@@ -68,13 +67,13 @@ public class Shoot : NetworkBehaviour
     {
         int desiredIndex = itemIndex + amount;
         //If this index is higher than the array amount
-        if(desiredIndex >= equippables.Length)
+        if (desiredIndex >= equippables.Length)
         {
             //SET to zero
             desiredIndex = 0;
         }
         //If the index is lower than Zero
-        else if (desiredIndex <0)
+        else if (desiredIndex < 0)
         {
             //SET to the array amount -1 (Loop around)
             desiredIndex = equippables.Length - 1;
@@ -86,7 +85,7 @@ public class Shoot : NetworkBehaviour
     Item SetNewItem(int itemID)
     {
         //Set the bounds of the check in case there is an error in our cycle method
-        if(itemID < 0 || itemID > equippables.Length)
+        if (itemID < 0 || itemID > equippables.Length)
         {
             //Force an error
             return null;
@@ -96,7 +95,7 @@ public class Shoot : NetworkBehaviour
             for (int i = 0; i < equippables.Length; i++)
             {
                 Item equippedItem = equippables[i];
-                if(i == itemIndex)
+                if (i == itemIndex)
                 {
                     equippedItem.gameObject.SetActive(true);
                 }
@@ -115,16 +114,16 @@ public class Shoot : NetworkBehaviour
         //SET fireFactor to fireFactor + Time.deltaTime
         useFactor = useFactor + Time.deltaTime;
         //SET fireInterval to 1/fireRate
-        float useInterval = 1 / useRate;
+        float useInterval = 1 / item.useRate;
         if (useFactor >= useInterval)
-        { 
-        //If we click the mouse button or the Right Trigger of an Xbox360 controller is pushed past an arbitrary dead zone
-        if (Input.GetButton("Fire1") || Input.GetAxis("Fire2") > 0.1)
         {
-            //Begin the Sequence of using an Item
-            Cmd_Use();
+            //If we click the mouse button or the Right Trigger of an Xbox360 controller is pushed past an arbitrary dead zone
+            if (Input.GetButton("Fire1") || Input.GetAxis("Fire2") > 0.1)
+            {
+                //Begin the Sequence of using an Item
+                Cmd_Use();
+            }
         }
-    }
     }
     #endregion
 }
