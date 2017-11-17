@@ -7,33 +7,27 @@ using UnityEngine.Networking;
 public class Player : NetworkBehaviour
 {
     public Camera cam;
-    public GameObject scoreText;
+    [SyncVar]
+    public float score = 0;
+    public Rigidbody rigid;
 
-    private Rigidbody rigid;
+    public Vector3 spawnPos;
+    private Health health;
     // Use this for initialization
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+        health = GetComponent<Health>();
+        
     }
     void Start()
     {
-        if (scoreText != null)
-        {
-            //Spawn the text that will display the players score
-            GameObject clone = Instantiate(scoreText);
-            Text score = clone.GetComponent<Text>();
-            //if we are not the localPlayer
-            if (!isLocalPlayer)
-            {
-                //Set a new Color variable
-                Color color = score.color;
-                //Make the alpha of the color transparent so that we do not see any other player's score overlapping our
-                color.a = 0.1f;
-                score.color = color;
-            }
+        spawnPos = transform.position;
+    }
 
-        }
-
+    void Update()
+    {
+        health.CheckHealth();
     }
 }

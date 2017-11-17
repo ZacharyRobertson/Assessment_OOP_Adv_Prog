@@ -20,7 +20,7 @@ public class PlayerMove : NetworkBehaviour
     void Awake()
     {
         player = GetComponent<Player>();
-        rigid = GetComponent<Rigidbody>();
+        rigid = player.rigid;
     }
 
     // Update is called once per frame
@@ -32,12 +32,14 @@ public class PlayerMove : NetworkBehaviour
         }
         if (isLocalPlayer)
         {
+            #region Input
             //Store the axes we will use to move (uses the same axis for Console/PC)
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-
+            #endregion
             // Set move based on Input
             move = new Vector3(h, 0, v);
+            //make our move relative to current rotation
             move = rigid.rotation * move;
             //Rotate to Mouse pos if playing on PC
             RotateToMouse();
@@ -66,10 +68,21 @@ public class PlayerMove : NetworkBehaviour
         //Set variables for controller Input(XBOX360 controller)
         rotX += Input.GetAxis("RJoystickH") * sensitivity;
         rotY += Input.GetAxis("RJoystickV") * sensitivity;
+        //Set a deadzone so that we do not wander when not moving the mouse or joystick
+        float inputDeadZone = 0.2f;
+        //Make sure the dead zone is adhered to
+        if(rotX <= inputDeadZone)
+        {
+            rotX = 0;
+        }
+        if(rotY <= inputDeadZone)
+        {
+            rotY = 0;
+        }
         #endregion
         //Set the variable that will clamp our camera so we do not jitter
         float xClamp = rotY;
-
+        #region Camera Variables
         //SET variable for the camera and playerTransform to rotate
         Vector3 rot = camTransform.rotation.eulerAngles;
         Vector3 playerRot = rigid.rotation.eulerAngles;
@@ -77,9 +90,10 @@ public class PlayerMove : NetworkBehaviour
         rot.x -= rotY;
         playerRot.y += rotX;
         rot.z = 0;
-
+        #endregion
+        #region Clamp
         //Clamp our Camera
-        if(xClamp > 90)
+        if (xClamp > 90)
         {
             xClamp = 90;
             rot.x = 90;
@@ -89,7 +103,7 @@ public class PlayerMove : NetworkBehaviour
             xClamp = -90;
             rot.x = -90;
         }
-
+        #endregion
         camTransform.rotation = Quaternion.Euler(rot);
         rigid.rotation = Quaternion.Euler(playerRot);
     }
