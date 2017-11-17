@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour {
     delegate void EnemyTypeFunc(int amount);
     private List<EnemyTypeFunc> enemyTypeFuncs = new List<EnemyTypeFunc>();
 
+    public Player[] players;
     public Transform target;
     public GameObject ghostPrefab;
     public GameObject zombiePrefab;
@@ -30,6 +31,7 @@ public class EnemySpawner : MonoBehaviour {
         {
             StartCoroutine(Spawn());
         }
+        
     }
 
     void SpawnGhost(int amount)

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private bool isGameActive;
-
+    private float timer;
     // Use this for initialization
     void Start()
     {
@@ -22,6 +22,15 @@ public class GameManager : MonoBehaviour
         {
             isGameActive = true;
         }
+        if(isGameActive)
+        {
+            timer += Time.deltaTime;
+
+            if(timer >= 90)
+            {
+                GameOver();
+            }
+        }
     }
 
     public void GameOver()
@@ -29,13 +38,14 @@ public class GameManager : MonoBehaviour
         //END THE GAME
         isGameActive = false;
 
-        //Return to menu
+        //Go to the results page
+        SceneManager.LoadScene("Results");
     }
     void OnGUI()
     {
         float scrW = Screen.width / 16;
         float scrH = Screen.height / 9;
-        if(isGameActive ==false && SceneManager.GetSceneByName("Online").isLoaded)
+        if(isGameActive ==false && SceneManager.GetSceneByName("Results").isLoaded)
         {
             GUI.Box(new Rect(), "");
         }

@@ -15,6 +15,7 @@ public abstract class Projectile : MonoBehaviour
     protected virtual void Update()
     {
         Destroy(gameObject, distance);
+
     }
     public abstract void Fire(Vector3 direction, float? speed = null);
 

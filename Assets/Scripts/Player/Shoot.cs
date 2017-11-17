@@ -50,6 +50,7 @@ public class Shoot : NetworkBehaviour
     void Cmd_Use()
     {
         Rpc_Use();
+
     }
     [ClientRpc]
     void Rpc_Use()
@@ -118,7 +119,7 @@ public class Shoot : NetworkBehaviour
         if (useFactor >= useInterval)
         {
             //If we click the mouse button or the Right Trigger of an Xbox360 controller is pushed past an arbitrary dead zone
-            if (Input.GetButton("Fire1") || Input.GetAxis("Fire2") > 0.1)
+            if (Input.GetButtonDown("Fire1") || Input.GetAxis("Fire2") > 0.1)
             {
                 //Begin the Sequence of using an Item
                 Cmd_Use();

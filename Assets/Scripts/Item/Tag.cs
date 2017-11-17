@@ -39,7 +39,7 @@ public class Tag : Item
         else
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-            p.Fire(Vector3.forward);
+            p.Fire(Vector3.forward,10);
         }
 
     }

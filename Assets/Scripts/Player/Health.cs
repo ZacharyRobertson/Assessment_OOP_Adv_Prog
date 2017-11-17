@@ -41,4 +41,8 @@ public class Health : MonoBehaviour
         respawnCount--;
         transform.position = player.spawnPos;
     }
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+    }
 }

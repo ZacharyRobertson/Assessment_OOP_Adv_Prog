@@ -26,6 +26,7 @@ public abstract class Item : MonoBehaviour
     {
         GameObject clone = Instantiate(projectile, pos, rot);
         Projectile p = clone.GetComponent<Projectile>();
+        Debug.Log("attached the component");
         currentUses--;
         return p;
     }

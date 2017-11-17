@@ -19,6 +19,8 @@ public class NetworkUser : NetworkBehaviour
     public Camera cam;
     public AudioListener audi;
 
+    public EnemySpawner[] spawners;
+
     // Use this for initialization
     void Start()
     {
