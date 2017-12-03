@@ -45,11 +45,12 @@ public class Explosive : Projectile
             }
         }
     }
-    void OnTriggerEnter(Collider col)
+    protected override void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Enemy")
         {
             Explode();
+            Destroy(gameObject);
         }
     }
 }

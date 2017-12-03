@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool isGameActive;
+    public bool isGameActive, showResults;
     private float timer;
+    public List<Player> playerList = new List<Player>();
     // Use this for initialization
     void Start()
     {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SceneManager.GetSceneByName("Online").isLoaded)
+        if(SceneManager.GetSceneByName("Online").isLoaded && timer <= 90)
         {
             isGameActive = true;
         }
@@ -37,17 +38,15 @@ public class GameManager : MonoBehaviour
     {
         //END THE GAME
         isGameActive = false;
-
-        //Go to the results page
-        SceneManager.LoadScene("Results");
+        showResults = true;
     }
     void OnGUI()
     {
         float scrW = Screen.width / 16;
         float scrH = Screen.height / 9;
-        if(isGameActive ==false && SceneManager.GetSceneByName("Results").isLoaded)
+        if(showResults == true)
         {
-            GUI.Box(new Rect(), "");
+            GUI.Box(new Rect(scrW * 2.5f, scrH * 1.5f,scrW * 10, scrH * 7 ), "You Survived!" + "\nScore: ");
         }
     }
 }

@@ -33,17 +33,20 @@ public class Shoot : NetworkBehaviour
             //Do nothing and return
             return;
         }
-        HandleInput();
-        #region Change items
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton2))
+        else
         {
-            CycleItem(-1);
+            HandleInput();
+            #region Change items
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton2))
+            {
+                CycleItem(-1);
+            }
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3))
+            {
+                CycleItem(1);
+            }
+            #endregion
         }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3))
-        {
-            CycleItem(1);
-        }
-        #endregion
     }
     #region Networking Commands
     [Command]
@@ -126,6 +129,7 @@ public class Shoot : NetworkBehaviour
                 {
                     //Begin the Sequence of using an Item
                     Cmd_Use();
+                    useFactor = 0;
                 }
             }
         }

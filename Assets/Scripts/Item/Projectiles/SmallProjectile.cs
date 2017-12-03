@@ -9,6 +9,10 @@ public class SmallProjectile : Projectile
     {
         base.Awake();
     }
+    protected override void Update()
+    {
+        base.Update();
+    }
     public override void Fire(Vector3 direction, float? speed = null)
     {
         float currentSpeed = this.speed;
@@ -21,5 +25,9 @@ public class SmallProjectile : Projectile
         direction = direction.normalized * currentSpeed * Time.deltaTime;
         // Fire in that direction
         rigid.MovePosition(transform.position + direction);
+    }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
     }
 }

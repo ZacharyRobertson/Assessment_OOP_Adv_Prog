@@ -19,7 +19,7 @@ public abstract class Projectile : MonoBehaviour
     }
     public abstract void Fire(Vector3 direction, float? speed = null);
 
-    void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
             Destroy(gameObject);
     }

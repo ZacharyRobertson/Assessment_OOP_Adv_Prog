@@ -26,6 +26,7 @@ public class Tag : Item
         if (Physics.Raycast(ray, out hit, range, itemMask))
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
+            p = p.GetComponent<SmallProjectile>();
             p.Fire(ray.direction);
             //Spawn the bullet on the client
             //Check for a health component
@@ -39,6 +40,7 @@ public class Tag : Item
         else
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
+            p = p.GetComponent<SmallProjectile>();
             p.Fire(Vector3.forward,10);
         }
 
