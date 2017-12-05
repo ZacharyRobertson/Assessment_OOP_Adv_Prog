@@ -28,6 +28,7 @@ public class Ghost : Enemy
         {
             StartCoroutine(Attack());
         }
+        FindNewTarget();
     }
     IEnumerator Attack()
     {
@@ -41,5 +42,20 @@ public class Ghost : Enemy
         attackBox.SetActive(false);
         isAttacking = false;
 
+    }
+    void FindNewTarget()
+    {
+        //SET a reference for all colliders within a 5 unit radius sphere
+        Collider[] playerCol = Physics.OverlapSphere(transform.position, 5);
+        //Loop through the colliders
+        for (int i = 0; i < playerCol.Length; i++)
+        {
+            //Find the first Player
+            if(playerCol[i].tag == "Player")
+            {
+                //Set the new target
+                target = playerCol[i].transform;
+            }
+        }
     }
 }
