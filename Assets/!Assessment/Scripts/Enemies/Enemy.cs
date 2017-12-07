@@ -11,7 +11,7 @@ public abstract class Enemy : MonoBehaviour
         IDLE = 0,
         SEEK = 1
     }
-    public float score;
+    public float score = 1;
     delegate void BehaviourFunc();
     public Transform target;
     public Behaviour behaviourIndex = Behaviour.SEEK;

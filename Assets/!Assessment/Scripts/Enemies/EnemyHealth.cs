@@ -6,8 +6,8 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 5;
-    private int currentHealth;
-    private float deathDelay = 1.2f;
+    public int currentHealth;
+    private float deathDelay = .2f;
 
     private bool purified = false;
     private Enemy thisEnemy;
@@ -30,11 +30,6 @@ public class EnemyHealth : MonoBehaviour
     }
     public void TakeDamage(int damage, Player attackingPlayer)
     {
-        //If no health is remaining, no reason to take damage
-        if(purified == true)
-        {
-            return;
-        }
         currentHealth -= damage;
 
         if(currentHealth <= 0)
@@ -46,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
     IEnumerator Purify()
     {
         purified = true;
+        thisEnemy.behaviourIndex = Enemy.Behaviour.IDLE;
         Color c = rend.color;
         c.a = 0.5f;
         #region Sin Math

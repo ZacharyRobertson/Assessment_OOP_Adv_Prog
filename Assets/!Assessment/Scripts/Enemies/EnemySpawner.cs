@@ -41,14 +41,17 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-
-            //Otherwise Set a new target
-            SetTarget();
+            //If there is a player in the scene
+            if (gManager.playerList.Count >= 1)
+            {
+                //Otherwise Set a new target
+                SetTarget();
+            }
         }
         //If the enemy is not active
-        if (!GetComponentInChildren<Enemy>().isActiveAndEnabled)
+        if (target == null || !GetComponentInChildren<Enemy>().isActiveAndEnabled)
         {
-            //allow us to soawn a new one
+            //allow us to spawn a new one
             hasSpawned = false;
         }
     }

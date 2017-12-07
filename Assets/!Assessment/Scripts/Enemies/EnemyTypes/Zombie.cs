@@ -9,25 +9,31 @@ public class Zombie : Enemy {
     public float meleeDelay = 0.2f;
     public GameObject attackBox;
     private bool isAttacking = false;
+    public EnemyHealth health;
 
     public EnemySpawner spawner;
     // Use this for initialization
     void Start()
     {
         spawner = GetComponentInParent<EnemySpawner>();
+        health = GetComponent<EnemyHealth>();
         target = spawner.target;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
+        
+        if (health.currentHealth >= 1)
+        {
         base.Update();
         //If target is within attackRange and we are not attacking
-        if (IsCloseToTarget(attackRange) && !isAttacking)
+        if (IsCloseToTarget(attackRange) && !isAttacking )
         {
             StartCoroutine(Attack());
         }
-        FindNewTarget();
+            FindNewTarget();
+        }
     }
     IEnumerator Attack()
     {

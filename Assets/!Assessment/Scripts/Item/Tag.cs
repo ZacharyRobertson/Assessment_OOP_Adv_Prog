@@ -9,8 +9,6 @@ public class Tag : Item
     public Transform firePoint;
     //The ray we will fire to send our shot information
     private Ray ray;
-    //The layer affected by our Ray
-    public LayerMask itemMask;
     //The item range
     public float range = 30;
     //Item damage
@@ -23,7 +21,7 @@ public class Tag : Item
         //Store the information our ray hits
         RaycastHit hit;
         //If we fire out a ray and check for itemMask
-        if (Physics.Raycast(ray, out hit, range, itemMask))
+        if (Physics.Raycast(ray, out hit, range))
         {
             Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
             p = p.GetComponent<SmallProjectile>();
@@ -34,15 +32,9 @@ public class Tag : Item
             //Make sure we have a health script to reference
             if (enemyHealth != null)
             {
+                Debug.Log("Hit an Enemy");
                 enemyHealth.TakeDamage(damage, player);
             }
         }
-        else
-        {
-            Projectile p = SpawnProjectile(firePoint.position, firePoint.rotation);
-            p = p.GetComponent<SmallProjectile>();
-            p.Fire(Vector3.forward,10);
-        }
-
     }
 }

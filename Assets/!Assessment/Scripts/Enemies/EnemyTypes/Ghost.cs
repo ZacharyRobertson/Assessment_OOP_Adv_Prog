@@ -10,25 +10,30 @@ public class Ghost : Enemy
     public float meleeDelay = 0.6f;
     public GameObject attackBox;
     private bool isAttacking = false;
+    public EnemyHealth health;
 
     public EnemySpawner spawner;
     // Use this for initialization
     void Start()
     {
         spawner = GetComponentInParent<EnemySpawner>();
+        health = GetComponent<EnemyHealth>();
         target = spawner.target;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-        base.Update();
-        //If target is within attackRange and we are not attacking
-        if (IsCloseToTarget(attackRange) && !isAttacking)
+        if (health.currentHealth >= 1)
         {
-            StartCoroutine(Attack());
+            base.Update();
+            //If target is within attackRange and we are not attacking
+            if (IsCloseToTarget(attackRange) && !isAttacking)
+            {
+                StartCoroutine(Attack());
+            }
+            FindNewTarget();
         }
-        FindNewTarget();
     }
     IEnumerator Attack()
     {
