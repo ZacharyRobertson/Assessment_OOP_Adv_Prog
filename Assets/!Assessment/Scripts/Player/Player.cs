@@ -23,12 +23,13 @@ public class Player : NetworkBehaviour
     }
     void Start()
     {
+        gManager = FindObjectOfType<GameManager>();
         spawnPos = transform.position;
         if (!isLocalPlayer)
         {
             AssignRemoteLayer();
+            
         }
-
         //Register player on the network
         Registerplayer();
     }

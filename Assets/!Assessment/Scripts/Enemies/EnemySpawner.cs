@@ -41,8 +41,15 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
+
             //Otherwise Set a new target
             SetTarget();
+        }
+        //If the enemy is not active
+        if (!GetComponentInChildren<Enemy>().isActiveAndEnabled)
+        {
+            //allow us to soawn a new one
+            hasSpawned = false;
         }
     }
 
@@ -63,10 +70,9 @@ public class EnemySpawner : MonoBehaviour
         enemyType = Random.Range(0, enemyTypeFuncs.Count);
         //Call the delegate function
         enemyTypeFuncs[enemyType](randomAmount);
-        oldTarget = target;
         yield return new WaitForSeconds(spawnRate);
-        hasSpawned = false;
-        target = null;
+        oldTarget = target;
+
     }
 
 
