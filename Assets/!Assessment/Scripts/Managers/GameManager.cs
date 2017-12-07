@@ -41,7 +41,12 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         //END THE GAME
+        Time.timeScale = 0;
         CollectScore();
+        for (int i = 0; i < scoreList.Count; i++)
+        {
+            displayScore = displayScore + "Player " + (i + 1).ToString() + " " + scoreList[i] + "\n";
+        }
         isGameActive = false;
         showResults = true;
     }
@@ -51,11 +56,7 @@ public class GameManager : MonoBehaviour
         {
             scoreList.Add(player.score.ToString());
         }
-
-        for (int i = 0; i < scoreList.Count; i++)
-        {
-            displayScore = displayScore + "Player " + (i + 1).ToString() + " " + scoreList[i] + "\n";
-        }
+        
     }
     void OnGUI()
     {
