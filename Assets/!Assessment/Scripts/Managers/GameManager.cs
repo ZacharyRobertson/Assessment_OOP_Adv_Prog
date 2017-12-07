@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Player player in playerList)
         {
-            this.scoreList.Add(player.score.ToString());
+            scoreList.Add(player.score.ToString());
         }
 
         for (int i = 0; i < scoreList.Count; i++)
